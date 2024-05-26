@@ -92,11 +92,16 @@ input IntWithAggregatesFilter {
   notIn: [Int!]
 }
 
+type LoginResponse {
+  accessToken: String!
+}
+
 type Mutation {
   createManyUser(data: [UserCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createOneUser(data: UserCreateInput!): User!
   deleteManyUser(where: UserWhereInput): AffectedRowsOutput!
   deleteOneUser(where: UserWhereUniqueInput!): User
+  login(email: String!, password: String!): LoginResponse!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): AffectedRowsOutput!
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
