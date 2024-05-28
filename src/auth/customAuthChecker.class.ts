@@ -5,15 +5,14 @@ import { prismaClient } from '../context';
 
 export class CustomAuthChecker implements AuthCheckerInterface {
   async check({ context }: ResolverData, roles: Role[]) {
-    const token = context['req']['headers']?.authorization?.split(' ')[1];
-    console.log(token);
+    const token =
+      context['req']['headers']?.authorization?.split(' ')[1] || null;
     try {
       const user = token ? jwt.decode(token) : null;
       if (user && user['email']) {
-        const dbUser = await prismaClient.user.findUnique({
+        const dbUser = await prismaClient.user.findUniqueOrThrow({
           where: { email: user['email'] },
         });
-        console.log(dbUser);
         return roles.includes(dbUser.role);
       } else {
         return false;

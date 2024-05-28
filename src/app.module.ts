@@ -9,12 +9,17 @@ import { TypeGraphQLModule } from 'typegraphql-nestjs';
 import { context } from './context';
 
 import { UserResolver } from './user/user.resolver';
-import { AuthModule } from './auth/auth.module';
 import { CustomAuthChecker } from './auth/customAuthChecker.class';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constants';
 
 @Module({
   imports: [
-    AuthModule,
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '10h' },
+    }),
     TypeGraphQLModule.forRootAsync({
       imports: [CustomAuthChecker],
       driver: ApolloDriver,
