@@ -11,7 +11,7 @@ import { jwtConstants } from './constants';
 import { IS_PUBLIC_KEY } from './decorators/public.decorator';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class JwtAuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
@@ -22,9 +22,10 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
+    console.log('test')
     if (isPublic) {
       // 💡 See this condition
-      return true;
+      return false;
     }
 
     const request = context.switchToHttp().getRequest();
@@ -39,7 +40,7 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException();
     }
-    return true;
+    return false;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {

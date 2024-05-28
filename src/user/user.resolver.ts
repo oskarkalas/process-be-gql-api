@@ -1,6 +1,7 @@
 import { Arg, Ctx, Field, Mutation, ObjectType, Resolver } from 'type-graphql';
 import { JwtService } from '@nestjs/jwt';
 import { Context } from '../context';
+import { User } from '@prisma/client';
 
 @ObjectType()
 class LoginResponse {
@@ -21,13 +22,12 @@ export class UserResolver {
     if (!user) {
       throw new Error('Bad username or password');
     }
-    const payload = {
-      firstName: user.firstName,
-      lastName: user.lastName,
+    const userData: Partial<User> = {
       email: user.email,
+      role: user.role,
     };
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken: await this.jwtService.signAsync(userData),
     };
   }
 }

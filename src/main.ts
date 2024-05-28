@@ -3,12 +3,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { applyResolversEnhanceMap } from '../prisma/generated/type-graphql';
+
 import { Authorized } from 'type-graphql';
+import { Role } from '@prisma/client';
 
 async function bootstrap() {
   applyResolversEnhanceMap({
     User: {
-      _all: [Authorized()],
+      users: [Authorized(Role.admin)],
+      aggregateUser: [Authorized(Role.user)],
+      user: [Authorized(Role.admin)],
     },
   });
   const app = await NestFactory.create(AppModule);

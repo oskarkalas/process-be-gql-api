@@ -7,9 +7,10 @@ import { UserCrudResolver } from '../prisma/generated/type-graphql';
 
 import { TypeGraphQLModule } from 'typegraphql-nestjs';
 import { context } from './context';
-import { CustomAuthChecker } from './customAuthChecker.class';
+
 import { UserResolver } from './user/user.resolver';
 import { AuthModule } from './auth/auth.module';
+import { CustomAuthChecker } from './auth/customAuthChecker.class';
 
 @Module({
   imports: [
