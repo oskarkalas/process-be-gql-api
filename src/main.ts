@@ -11,7 +11,7 @@ async function bootstrap() {
   applyResolversEnhanceMap({
     User: {
       users: [Authorized(Role.admin)],
-      aggregateUser: [Authorized(Role.user)],
+      aggregateUser: [Authorized(Role.admin)],
       user: [Authorized(Role.admin)],
     },
   });

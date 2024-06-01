@@ -3,15 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLTimestamp } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
-import { UserCrudResolver } from '../prisma/generated/type-graphql';
-
 import { TypeGraphQLModule } from 'typegraphql-nestjs';
-import { context } from './context';
-
-import { UserResolver } from './user/user.resolver';
 import { CustomAuthChecker } from './auth/customAuthChecker.class';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
+import { prismaClient } from './context';
+import { UserCrudResolver } from '../prisma/generated/type-graphql';
+import { UserResolver } from './user/user.resolver';
 
 @Module({
   imports: [
@@ -29,7 +27,7 @@ import { jwtConstants } from './auth/constants';
         authChecker: CustomAuthChecker,
         scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
         emitSchemaFile: true,
-        context: context,
+        context: (req: any) => ({ ...req, prisma: prismaClient }),
       }),
     }),
   ],

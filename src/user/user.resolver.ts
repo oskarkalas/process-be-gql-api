@@ -2,6 +2,7 @@ import { Arg, Ctx, Field, Mutation, ObjectType, Resolver } from 'type-graphql';
 import { JwtService } from '@nestjs/jwt';
 import { Context } from '../context';
 import { User } from '@prisma/client';
+import { jwtConstants } from '../auth/constants';
 
 @ObjectType()
 class LoginResponse {
@@ -20,14 +21,16 @@ export class UserResolver {
   ) {
     const user = await prisma.user.findUnique({ where: { email, password } });
     if (!user) {
-      throw new Error('Bad username or password');
+      throw new Error('wrong username or password');
     }
     const userData: Partial<User> = {
       email: user.email,
       role: user.role,
     };
     return {
-      accessToken: await this.jwtService.signAsync(userData),
+      accessToken: await this.jwtService.signAsync(userData, {
+        privateKey: jwtConstants.secret,
+      }),
     };
   }
 }
