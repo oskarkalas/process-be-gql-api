@@ -31,9 +31,6 @@ export class User {
   })
   email!: string;
 
-  @TypeGraphQL.Field((_type) => String, {
-    nullable: true,
-  })
   password?: string | null;
 
   @TypeGraphQL.Field((_type) => String, {

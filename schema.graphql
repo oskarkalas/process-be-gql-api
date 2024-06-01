@@ -381,7 +381,6 @@ type User {
   firstName: String
   id: Int!
   lastName: String
-  password: String
   picture: String!
   refreshToken: String
   role: Role!

@@ -234,7 +234,6 @@ const modelsInfo = {
     'lastName',
     'picture',
     'email',
-    'password',
     'refreshToken',
     'createdAt',
     'updatedAt',
