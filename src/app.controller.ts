@@ -1,16 +1,26 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Redirect, Render } from '@nestjs/common';
 
 @Controller()
 export class AppController {
   @Get()
   @Render('app')
   root() {
-    return { message: 'Helleeeo world!' };
+    return { message: 'jsem v appce' };
   }
 
   @Get('login')
   @Render('login')
   login() {
-    return { message: 'Helleeeo world!' };
+    return { message: 'Musim se prihlasit' };
   }
+
+  @Get('app')
+  @Redirect('/', 302)
+  app() {
+    const logged = true;
+    if (logged) {
+      return { url: '/' };
+    }
+  }
+
 }
