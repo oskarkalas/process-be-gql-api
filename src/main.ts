@@ -1,11 +1,13 @@
 import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { applyResolversEnhanceMap } from '../prisma/generated/type-graphql';
-
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { Authorized } from 'type-graphql';
 import { Role } from '@prisma/client';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { applyResolversEnhanceMap } from '../prisma/generated/type-graphql';
+import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-client-exception.filter';
 
 async function bootstrap() {
   applyResolversEnhanceMap({
@@ -15,8 +17,15 @@ async function bootstrap() {
       user: [Authorized(Role.admin)],
     },
   });
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useStaticAssets(join(__dirname, '..', 'src/public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
+
   await app.listen(3000);
 }
 bootstrap().then(() => {
