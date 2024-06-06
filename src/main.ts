@@ -22,7 +22,9 @@ async function bootstrap() {
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  app.useStaticAssets(join(__dirname, '..', 'src/public'));
+  app.useStaticAssets(join(__dirname, '..', '../public'), {
+    prefix: '/public/',
+  });
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 

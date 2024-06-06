@@ -17,10 +17,10 @@ export class AppController {
   @Get('app')
   @Redirect('/', 302)
   app() {
-    const logged = true;
+    const logged = false;
     if (logged) {
       return { url: '/' };
     }
+    return { url: 'login' };
   }
-
 }

@@ -10,9 +10,15 @@ import { jwtConstants } from './auth/constants';
 import { prismaClient } from './context';
 import { UserCrudResolver } from '../prisma/generated/type-graphql';
 import { UserResolver } from './user/user.resolver';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..'),
+      renderPath: 'public',
+    }),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
