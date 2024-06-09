@@ -1,17 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { GraphQLTimestamp } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { TypeGraphQLModule } from 'typegraphql-nestjs';
-import { CustomAuthChecker } from './auth/customAuthChecker.class';
 import { JwtModule } from '@nestjs/jwt';
+import { join } from 'path';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { CustomAuthChecker } from './auth/customAuthChecker.class';
 import { jwtConstants } from './auth/constants';
 import { prismaClient } from './context';
 import { UserCrudResolver } from '../prisma/generated/type-graphql';
 import { UserResolver } from './user/user.resolver';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { GoogleStrategy } from './quards/google.strategy';
+import { AuthController } from './auth/auth.controller';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -24,6 +27,7 @@ import { join } from 'path';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '10h' },
     }),
+    PrismaModule,
     TypeGraphQLModule.forRootAsync({
       imports: [CustomAuthChecker],
       driver: ApolloDriver,
@@ -37,7 +41,7 @@ import { join } from 'path';
       }),
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService, UserCrudResolver, UserResolver],
+  controllers: [AppController, AuthController],
+  providers: [AppService, UserCrudResolver, UserResolver, GoogleStrategy],
 })
 export class AppModule {}
