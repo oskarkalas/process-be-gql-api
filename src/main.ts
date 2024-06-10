@@ -28,8 +28,8 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
-  await app.listen(3000);
+  await app.listen(1337);
 }
 bootstrap().then(() => {
-  console.log('graphql server running on port http://localhost:3000/graphql');
+  console.log('graphql server running on port http://localhost:1337/graphql');
 });

@@ -12,12 +12,11 @@ export class AppService {
   ) {}
   async googleLogin(res) {
     if (res.user) {
-      console.log(res.user)
       const user = await this.prisma.user.findUnique({
         where: { email: res.user.email },
       });
       if (!user) {
-        throw new Error('wrong username or password');
+        throw new Error('wrong google login');
       }
       const userData: Partial<User> = {
         email: user.email,

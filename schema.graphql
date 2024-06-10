@@ -93,7 +93,8 @@ input IntWithAggregatesFilter {
 }
 
 type LoginResponse {
-  accessToken: String!
+  jwt: String!
+  user: User!
 }
 
 type Mutation {
@@ -102,6 +103,7 @@ type Mutation {
   deleteManyUser(where: UserWhereInput): AffectedRowsOutput!
   deleteOneUser(where: UserWhereUniqueInput!): User
   login(email: String!, password: String!): LoginResponse!
+  registerNewUser(email: String!, password: String!): LoginResponse!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): AffectedRowsOutput!
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
@@ -270,6 +272,7 @@ enum NullsOrder {
 }
 
 type Query {
+  Me: User!
   aggregateUser(cursor: UserWhereUniqueInput, orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
   findFirstUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User
   findFirstUserOrThrow(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User

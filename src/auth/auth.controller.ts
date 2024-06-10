@@ -16,7 +16,7 @@ export class AuthController {
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Request() req: any, @Res() res: any) {
     const status = await this.appService.googleLogin(req);
-    console.log(status);
-    res.redirect('http://localhost:4200/?accessToken=' + status);
+    console.log(status, req.session);
+    res.redirect('http://localhost:4200/login?accessToken=' + status);
   }
 }
