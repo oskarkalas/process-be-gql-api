@@ -1,6 +1,7 @@
 export { DateTimeFieldUpdateOperationsInput } from './DateTimeFieldUpdateOperationsInput';
 export { DateTimeFilter } from './DateTimeFilter';
 export { DateTimeWithAggregatesFilter } from './DateTimeWithAggregatesFilter';
+export { EnumProviderNullableListFilter } from './EnumProviderNullableListFilter';
 export { EnumRoleFieldUpdateOperationsInput } from './EnumRoleFieldUpdateOperationsInput';
 export { EnumRoleFilter } from './EnumRoleFilter';
 export { EnumRoleWithAggregatesFilter } from './EnumRoleWithAggregatesFilter';
@@ -30,6 +31,7 @@ export { UserAvgOrderByAggregateInput } from './UserAvgOrderByAggregateInput';
 export { UserCountOrderByAggregateInput } from './UserCountOrderByAggregateInput';
 export { UserCreateInput } from './UserCreateInput';
 export { UserCreateManyInput } from './UserCreateManyInput';
+export { UserCreateproviderInput } from './UserCreateproviderInput';
 export { UserMaxOrderByAggregateInput } from './UserMaxOrderByAggregateInput';
 export { UserMinOrderByAggregateInput } from './UserMinOrderByAggregateInput';
 export { UserOrderByWithAggregationInput } from './UserOrderByWithAggregationInput';
@@ -38,5 +40,6 @@ export { UserScalarWhereWithAggregatesInput } from './UserScalarWhereWithAggrega
 export { UserSumOrderByAggregateInput } from './UserSumOrderByAggregateInput';
 export { UserUpdateInput } from './UserUpdateInput';
 export { UserUpdateManyMutationInput } from './UserUpdateManyMutationInput';
+export { UserUpdateproviderInput } from './UserUpdateproviderInput';
 export { UserWhereInput } from './UserWhereInput';
 export { UserWhereUniqueInput } from './UserWhereUniqueInput';

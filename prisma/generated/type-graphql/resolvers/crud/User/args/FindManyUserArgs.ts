@@ -47,6 +47,7 @@ export class FindManyUserArgs {
         | 'createdAt'
         | 'updatedAt'
         | 'role'
+        | 'provider'
       >
     | undefined;
 }

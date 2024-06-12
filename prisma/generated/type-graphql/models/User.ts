@@ -2,6 +2,7 @@ import * as TypeGraphQL from 'type-graphql';
 import * as GraphQLScalars from 'graphql-scalars';
 import { Prisma } from '@prisma/client';
 import { DecimalJSScalar } from '../scalars';
+import { Provider } from '../enums/Provider';
 import { Role } from '../enums/Role';
 
 @TypeGraphQL.ObjectType('User', {})
@@ -52,4 +53,9 @@ export class User {
     nullable: false,
   })
   role!: 'admin' | 'user' | 'editor';
+
+  @TypeGraphQL.Field((_type) => [Provider], {
+    nullable: false,
+  })
+  provider!: Array<'google' | 'facebook' | 'github'>;
 }

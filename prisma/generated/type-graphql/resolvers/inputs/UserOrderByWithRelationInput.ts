@@ -56,4 +56,9 @@ export class UserOrderByWithRelationInput {
     nullable: true,
   })
   role?: 'asc' | 'desc' | undefined;
+
+  @TypeGraphQL.Field((_type) => SortOrder, {
+    nullable: true,
+  })
+  provider?: 'asc' | 'desc' | undefined;
 }

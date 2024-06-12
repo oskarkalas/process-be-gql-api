@@ -3,6 +3,7 @@ import * as GraphQLScalars from 'graphql-scalars';
 import { Prisma } from '@prisma/client';
 import { DecimalJSScalar } from '../../scalars';
 import { DateTimeFilter } from '../inputs/DateTimeFilter';
+import { EnumProviderNullableListFilter } from '../inputs/EnumProviderNullableListFilter';
 import { EnumRoleFilter } from '../inputs/EnumRoleFilter';
 import { StringFilter } from '../inputs/StringFilter';
 import { StringNullableFilter } from '../inputs/StringNullableFilter';
@@ -74,4 +75,9 @@ export class UserWhereUniqueInput {
     nullable: true,
   })
   role?: EnumRoleFilter | undefined;
+
+  @TypeGraphQL.Field((_type) => EnumProviderNullableListFilter, {
+    nullable: true,
+  })
+  provider?: EnumProviderNullableListFilter | undefined;
 }

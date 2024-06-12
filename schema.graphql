@@ -44,6 +44,14 @@ input DateTimeWithAggregatesFilter {
   notIn: [Timestamp!]
 }
 
+input EnumProviderNullableListFilter {
+  equals: [Provider!]
+  has: Provider
+  hasEvery: [Provider!]
+  hasSome: [Provider!]
+  isEmpty: Boolean
+}
+
 input EnumRoleFieldUpdateOperationsInput {
   set: Role
 }
@@ -92,6 +100,11 @@ input IntWithAggregatesFilter {
   notIn: [Int!]
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
 type LoginResponse {
   jwt: String!
   user: User!
@@ -102,8 +115,8 @@ type Mutation {
   createOneUser(data: UserCreateInput!): User!
   deleteManyUser(where: UserWhereInput): AffectedRowsOutput!
   deleteOneUser(where: UserWhereUniqueInput!): User
-  login(email: String!, password: String!): LoginResponse!
-  registerNewUser(email: String!, password: String!): LoginResponse!
+  login(loginInput: LoginInput!): LoginResponse!
+  registerNewUser(loginInput: LoginInput!): LoginResponse!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): AffectedRowsOutput!
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
@@ -271,6 +284,12 @@ enum NullsOrder {
   last
 }
 
+enum Provider {
+  facebook
+  github
+  google
+}
+
 type Query {
   Me: User!
   aggregateUser(cursor: UserWhereUniqueInput, orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
@@ -385,6 +404,7 @@ type User {
   id: Int!
   lastName: String
   picture: String!
+  provider: [Provider!]!
   refreshToken: String
   role: Role!
   updatedAt: Timestamp!
@@ -407,6 +427,7 @@ type UserCountAggregate {
   lastName: Int!
   password: Int!
   picture: Int!
+  provider: Int!
   refreshToken: Int!
   role: Int!
   updatedAt: Int!
@@ -420,6 +441,7 @@ input UserCountOrderByAggregateInput {
   lastName: SortOrder
   password: SortOrder
   picture: SortOrder
+  provider: SortOrder
   refreshToken: SortOrder
   role: SortOrder
   updatedAt: SortOrder
@@ -432,6 +454,7 @@ input UserCreateInput {
   lastName: String
   password: String
   picture: String
+  provider: UserCreateproviderInput
   refreshToken: String
   role: Role
   updatedAt: Timestamp
@@ -445,9 +468,14 @@ input UserCreateManyInput {
   lastName: String
   password: String
   picture: String
+  provider: UserCreateproviderInput
   refreshToken: String
   role: Role
   updatedAt: Timestamp
+}
+
+input UserCreateproviderInput {
+  set: [Provider!]!
 }
 
 type UserGroupBy {
@@ -463,6 +491,7 @@ type UserGroupBy {
   lastName: String
   password: String
   picture: String!
+  provider: [Provider!]
   refreshToken: String
   role: Role!
   updatedAt: Timestamp!
@@ -533,6 +562,7 @@ input UserOrderByWithAggregationInput {
   lastName: SortOrderInput
   password: SortOrderInput
   picture: SortOrder
+  provider: SortOrder
   refreshToken: SortOrderInput
   role: SortOrder
   updatedAt: SortOrder
@@ -546,6 +576,7 @@ input UserOrderByWithRelationInput {
   lastName: SortOrderInput
   password: SortOrderInput
   picture: SortOrder
+  provider: SortOrder
   refreshToken: SortOrderInput
   role: SortOrder
   updatedAt: SortOrder
@@ -559,6 +590,7 @@ enum UserScalarFieldEnum {
   lastName
   password
   picture
+  provider
   refreshToken
   role
   updatedAt
@@ -575,6 +607,7 @@ input UserScalarWhereWithAggregatesInput {
   lastName: StringNullableWithAggregatesFilter
   password: StringNullableWithAggregatesFilter
   picture: StringWithAggregatesFilter
+  provider: EnumProviderNullableListFilter
   refreshToken: StringNullableWithAggregatesFilter
   role: EnumRoleWithAggregatesFilter
   updatedAt: DateTimeWithAggregatesFilter
@@ -595,6 +628,7 @@ input UserUpdateInput {
   lastName: NullableStringFieldUpdateOperationsInput
   password: NullableStringFieldUpdateOperationsInput
   picture: StringFieldUpdateOperationsInput
+  provider: UserUpdateproviderInput
   refreshToken: NullableStringFieldUpdateOperationsInput
   role: EnumRoleFieldUpdateOperationsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
@@ -607,9 +641,15 @@ input UserUpdateManyMutationInput {
   lastName: NullableStringFieldUpdateOperationsInput
   password: NullableStringFieldUpdateOperationsInput
   picture: StringFieldUpdateOperationsInput
+  provider: UserUpdateproviderInput
   refreshToken: NullableStringFieldUpdateOperationsInput
   role: EnumRoleFieldUpdateOperationsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input UserUpdateproviderInput {
+  push: [Provider!]
+  set: [Provider!]
 }
 
 input UserWhereInput {
@@ -623,6 +663,7 @@ input UserWhereInput {
   lastName: StringNullableFilter
   password: StringNullableFilter
   picture: StringFilter
+  provider: EnumProviderNullableListFilter
   refreshToken: StringNullableFilter
   role: EnumRoleFilter
   updatedAt: DateTimeFilter
@@ -639,6 +680,7 @@ input UserWhereUniqueInput {
   lastName: StringNullableFilter
   password: StringNullableFilter
   picture: StringFilter
+  provider: EnumProviderNullableListFilter
   refreshToken: StringNullableFilter
   role: EnumRoleFilter
   updatedAt: DateTimeFilter

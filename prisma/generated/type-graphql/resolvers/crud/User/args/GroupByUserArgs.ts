@@ -31,6 +31,7 @@ export class GroupByUserArgs {
     | 'createdAt'
     | 'updatedAt'
     | 'role'
+    | 'provider'
   >;
 
   @TypeGraphQL.Field((_type) => UserScalarWhereWithAggregatesInput, {

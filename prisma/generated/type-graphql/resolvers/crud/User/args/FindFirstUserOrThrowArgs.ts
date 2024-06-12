@@ -47,6 +47,7 @@ export class FindFirstUserOrThrowArgs {
         | 'createdAt'
         | 'updatedAt'
         | 'role'
+        | 'provider'
       >
     | undefined;
 }

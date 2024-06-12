@@ -27,9 +27,14 @@ async function bootstrap() {
   });
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
+  app.enableCors({
+    allowedHeaders: ['Content-Type', 'Origin', 'Accept'],
+    origin: 'http://localhost:4200',
+    credentials: true,
+  });
 
-  await app.listen(1337);
+  await app.listen(3000);
 }
 bootstrap().then(() => {
-  console.log('graphql server running on port http://localhost:1337/graphql');
+  console.log('graphql server running on port http://localhost:3000/graphql');
 });

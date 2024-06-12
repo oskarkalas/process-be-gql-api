@@ -10,13 +10,20 @@ export class AppService {
     private readonly prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
-  async googleLogin(res) {
-    if (res.user) {
-      const user = await this.prisma.user.findUnique({
-        where: { email: res.user.email },
+  async googleLogin(googleResponse) {
+    if (googleResponse.user) {
+      let user = await this.prisma.user.findUnique({
+        where: { email: googleResponse.user.email },
       });
-      if (!user) {
-        throw new Error('wrong google login');
+      if (!user && googleResponse.user.email) {
+        user = await this.prisma.user.create({
+          data: {
+            email: googleResponse.user.email,
+            firstName: googleResponse.user?.firstName,
+            lastName: googleResponse.user?.lastName,
+            picture: googleResponse.user?.picture,
+          },
+        });
       }
       const userData: Partial<User> = {
         email: user.email,

@@ -2,6 +2,7 @@ import {
   Arg,
   Ctx,
   Field,
+  InputType,
   Mutation,
   ObjectType,
   Query,
@@ -20,16 +21,25 @@ class LoginResponse {
   user: User;
 }
 
+@InputType()
+export class LoginInput {
+  @Field()
+  email: string;
+  @Field()
+  password: string;
+}
+
 @Resolver()
 export class UserResolver {
   constructor(private jwtService: JwtService) {}
   @Mutation(() => LoginResponse)
   async login(
-    @Arg('email') email: string,
-    @Arg('password') password: string,
+    @Arg('loginInput') loginInput: LoginInput,
     @Ctx() { prisma }: Context,
   ) {
-    const user = await prisma.user.findUnique({ where: { email, password } });
+    const user = await prisma.user.findUnique({
+      where: { email: loginInput.email, password: loginInput.password },
+    });
     if (!user) {
       throw new Error('wrong username or password');
     }
@@ -47,11 +57,12 @@ export class UserResolver {
 
   @Mutation(() => LoginResponse)
   async registerNewUser(
-    @Arg('email') email: string,
-    @Arg('password') password: string,
+    @Arg('loginInput') loginInput: LoginInput,
     @Ctx() { prisma }: Context,
   ) {
-    const user = await prisma.user.create({ data: { email, password } });
+    const user = await prisma.user.create({
+      data: { email: loginInput.email, password: loginInput.password },
+    });
     if (!user) {
       throw new Error('wrong username or password');
     }

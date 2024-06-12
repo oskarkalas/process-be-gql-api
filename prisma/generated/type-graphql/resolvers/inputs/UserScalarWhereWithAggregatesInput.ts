@@ -3,6 +3,7 @@ import * as GraphQLScalars from 'graphql-scalars';
 import { Prisma } from '@prisma/client';
 import { DecimalJSScalar } from '../../scalars';
 import { DateTimeWithAggregatesFilter } from '../inputs/DateTimeWithAggregatesFilter';
+import { EnumProviderNullableListFilter } from '../inputs/EnumProviderNullableListFilter';
 import { EnumRoleWithAggregatesFilter } from '../inputs/EnumRoleWithAggregatesFilter';
 import { IntWithAggregatesFilter } from '../inputs/IntWithAggregatesFilter';
 import { StringNullableWithAggregatesFilter } from '../inputs/StringNullableWithAggregatesFilter';
@@ -74,4 +75,9 @@ export class UserScalarWhereWithAggregatesInput {
     nullable: true,
   })
   role?: EnumRoleWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field((_type) => EnumProviderNullableListFilter, {
+    nullable: true,
+  })
+  provider?: EnumProviderNullableListFilter | undefined;
 }

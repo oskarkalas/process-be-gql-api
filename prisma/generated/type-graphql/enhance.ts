@@ -238,6 +238,7 @@ const modelsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
 };
 
@@ -289,6 +290,7 @@ const outputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
     '_count',
     '_avg',
     '_sum',
@@ -307,6 +309,7 @@ const outputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
     '_all',
   ],
   UserAvgAggregate: ['id'],
@@ -390,6 +393,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   UserOrderByWithRelationInput: [
     'id',
@@ -402,6 +406,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   UserWhereUniqueInput: [
     'id',
@@ -417,6 +422,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   UserOrderByWithAggregationInput: [
     'id',
@@ -429,6 +435,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
     '_count',
     '_avg',
     '_max',
@@ -449,6 +456,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   UserCreateInput: [
     'firstName',
@@ -460,6 +468,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   UserUpdateInput: [
     'firstName',
@@ -471,6 +480,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   UserCreateManyInput: [
     'id',
@@ -483,6 +493,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   UserUpdateManyMutationInput: [
     'firstName',
@@ -494,6 +505,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   IntFilter: ['equals', 'in', 'notIn', 'lt', 'lte', 'gt', 'gte', 'not'],
   StringNullableFilter: [
@@ -526,6 +538,13 @@ const inputsInfo = {
   ],
   DateTimeFilter: ['equals', 'in', 'notIn', 'lt', 'lte', 'gt', 'gte', 'not'],
   EnumRoleFilter: ['equals', 'in', 'notIn', 'not'],
+  EnumProviderNullableListFilter: [
+    'equals',
+    'has',
+    'hasEvery',
+    'hasSome',
+    'isEmpty',
+  ],
   SortOrderInput: ['sort', 'nulls'],
   UserCountOrderByAggregateInput: [
     'id',
@@ -538,6 +557,7 @@ const inputsInfo = {
     'createdAt',
     'updatedAt',
     'role',
+    'provider',
   ],
   UserAvgOrderByAggregateInput: ['id'],
   UserMaxOrderByAggregateInput: [
@@ -636,10 +656,12 @@ const inputsInfo = {
     '_min',
     '_max',
   ],
+  UserCreateproviderInput: ['set'],
   NullableStringFieldUpdateOperationsInput: ['set'],
   StringFieldUpdateOperationsInput: ['set'],
   DateTimeFieldUpdateOperationsInput: ['set'],
   EnumRoleFieldUpdateOperationsInput: ['set'],
+  UserUpdateproviderInput: ['set', 'push'],
   IntFieldUpdateOperationsInput: [
     'set',
     'increment',

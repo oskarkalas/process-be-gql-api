@@ -6,6 +6,7 @@ import { DateTimeFieldUpdateOperationsInput } from '../inputs/DateTimeFieldUpdat
 import { EnumRoleFieldUpdateOperationsInput } from '../inputs/EnumRoleFieldUpdateOperationsInput';
 import { NullableStringFieldUpdateOperationsInput } from '../inputs/NullableStringFieldUpdateOperationsInput';
 import { StringFieldUpdateOperationsInput } from '../inputs/StringFieldUpdateOperationsInput';
+import { UserUpdateproviderInput } from '../inputs/UserUpdateproviderInput';
 
 @TypeGraphQL.InputType('UserUpdateManyMutationInput', {})
 export class UserUpdateManyMutationInput {
@@ -53,4 +54,9 @@ export class UserUpdateManyMutationInput {
     nullable: true,
   })
   role?: EnumRoleFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field((_type) => UserUpdateproviderInput, {
+    nullable: true,
+  })
+  provider?: UserUpdateproviderInput | undefined;
 }

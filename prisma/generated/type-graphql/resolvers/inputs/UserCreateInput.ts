@@ -2,6 +2,7 @@ import * as TypeGraphQL from 'type-graphql';
 import * as GraphQLScalars from 'graphql-scalars';
 import { Prisma } from '@prisma/client';
 import { DecimalJSScalar } from '../../scalars';
+import { UserCreateproviderInput } from '../inputs/UserCreateproviderInput';
 import { Role } from '../../enums/Role';
 
 @TypeGraphQL.InputType('UserCreateInput', {})
@@ -50,4 +51,9 @@ export class UserCreateInput {
     nullable: true,
   })
   role?: 'admin' | 'user' | 'editor' | undefined;
+
+  @TypeGraphQL.Field((_type) => UserCreateproviderInput, {
+    nullable: true,
+  })
+  provider?: UserCreateproviderInput | undefined;
 }

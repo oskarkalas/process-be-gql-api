@@ -7,6 +7,7 @@ import { UserCountAggregate } from '../outputs/UserCountAggregate';
 import { UserMaxAggregate } from '../outputs/UserMaxAggregate';
 import { UserMinAggregate } from '../outputs/UserMinAggregate';
 import { UserSumAggregate } from '../outputs/UserSumAggregate';
+import { Provider } from '../../enums/Provider';
 import { Role } from '../../enums/Role';
 
 @TypeGraphQL.ObjectType('UserGroupBy', {})
@@ -60,6 +61,11 @@ export class UserGroupBy {
     nullable: false,
   })
   role!: 'admin' | 'user' | 'editor';
+
+  @TypeGraphQL.Field((_type) => [Provider], {
+    nullable: true,
+  })
+  provider!: Array<'google' | 'facebook' | 'github'> | null;
 
   @TypeGraphQL.Field((_type) => UserCountAggregate, {
     nullable: true,

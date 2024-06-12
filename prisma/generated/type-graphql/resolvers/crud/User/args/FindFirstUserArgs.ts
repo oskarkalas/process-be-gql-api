@@ -47,6 +47,7 @@ export class FindFirstUserArgs {
         | 'createdAt'
         | 'updatedAt'
         | 'role'
+        | 'provider'
       >
     | undefined;
 }
