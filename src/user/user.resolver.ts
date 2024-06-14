@@ -12,6 +12,7 @@ import { User } from '../../prisma/generated/type-graphql';
 import { JwtService } from '@nestjs/jwt';
 import { Context } from '../context';
 import { jwtConstants } from '../auth/constants';
+import * as bcrypt from 'bcryptjs';
 
 @ObjectType()
 class LoginResponse {
@@ -38,11 +39,17 @@ export class UserResolver {
     @Ctx() { prisma }: Context,
   ) {
     const user = await prisma.user.findUnique({
-      where: { email: loginInput.email, password: loginInput.password },
+      where: { email: loginInput.email },
     });
-    if (!user) {
+    if (!user.password && user.provider) {
+      throw new Error(user.provider.toString());
+    }
+    const match = await bcrypt.compare(loginInput.password, user.password);
+
+    if (!match) {
       throw new Error('wrong username or password');
     }
+
     const userData: Partial<User> = {
       email: user.email,
       role: user.role,
@@ -60,8 +67,10 @@ export class UserResolver {
     @Arg('loginInput') loginInput: LoginInput,
     @Ctx() { prisma }: Context,
   ) {
+    const saltRounds = 10;
+    const hashedPassword = bcrypt.hashSync(loginInput.password, saltRounds);
     const user = await prisma.user.create({
-      data: { email: loginInput.email, password: loginInput.password },
+      data: { email: loginInput.email, password: hashedPassword },
     });
     if (!user) {
       throw new Error('wrong username or password');
