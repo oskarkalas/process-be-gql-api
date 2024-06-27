@@ -28,7 +28,7 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
   app.enableCors({
-    allowedHeaders: ['Content-Type', 'Origin', 'Accept'],
+    allowedHeaders: ['Content-Type', 'Origin', 'Accept', 'Authorization'],
     origin: 'http://localhost:4200',
     credentials: true,
   });

@@ -1,4 +1,12 @@
-import { Controller, Get, Request, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Header,
+  Request,
+  Res,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AppService } from '../app.service';
 
@@ -13,10 +21,15 @@ export class AuthController {
   }
 
   @Get('google-redirect')
+  @Header('Cache-Control', 'none')
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Request() req: any, @Res() res: any) {
-    const status = await this.appService.googleLogin(req);
-    console.log(status, req.session);
-    res.redirect('http://localhost:4200/login?accessToken=' + status);
+    return await this.appService.googleLogin(req, res);
+  }
+
+  @Get('validate-user-token')
+  @Header('Cache-Control', 'none')
+  async validateToken(@Query('accessToken') accessToken: string) {
+    return await this.appService.validateToken(accessToken);
   }
 }

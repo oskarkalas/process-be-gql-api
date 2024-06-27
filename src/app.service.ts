@@ -1,27 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { Role, User } from '@prisma/client';
-import { jwtConstants } from './auth/constants';
 import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constants';
 
 @Injectable()
 export class AppService {
   constructor(
     private readonly prisma: PrismaService,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
-  async googleLogin(googleResponse) {
-    if (googleResponse.user) {
-      let user = await this.prisma.user.findUnique({
-        where: { email: googleResponse.user.email },
+  async validateToken(requestToken: string): Promise<boolean> {
+    // console.log(requestToken);
+    const tokenData = this.jwtService.verify(requestToken);
+    if (tokenData) {
+      const user = await this.prisma.user.findUnique({
+        where: { email: tokenData.email },
       });
-      if (!user && googleResponse.user.email) {
+      return !!user;
+    }
+    return false;
+  }
+
+  async googleLogin(req, res) {
+    console.log(req.user);
+    if (req.user) {
+      let user = await this.prisma.user.findUnique({
+        where: { email: req.user.email },
+      });
+      if (!user) {
         user = await this.prisma.user.create({
           data: {
-            email: googleResponse.user.email,
-            firstName: googleResponse.user?.firstName,
-            lastName: googleResponse.user?.lastName,
-            picture: googleResponse.user?.picture,
+            email: req.user.email,
+            firstName: req.user?.firstName,
+            lastName: req.user?.lastName,
+            picture: req.user?.picture,
           },
         });
       }
@@ -29,9 +42,10 @@ export class AppService {
         email: user.email,
         role: Role.admin,
       };
-      return await this.jwtService.signAsync(userData, {
+      const jwtStatus = await this.jwtService.signAsync(userData, {
         privateKey: jwtConstants.secret,
       });
+      res.redirect('http://localhost:4200/?accessToken=' + jwtStatus);
     }
   }
 }
