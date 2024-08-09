@@ -45,7 +45,7 @@ export class AppService {
       const jwtStatus = await this.jwtService.signAsync(userData, {
         privateKey: jwtConstants.secret,
       });
-      res.redirect('http://localhost:4200/?accessToken=' + jwtStatus);
+      res.redirect('http://localhost:4200/login?accessToken=' + jwtStatus);
     }
   }
 }

@@ -45,7 +45,6 @@
     "graphql": "^16.8.1",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.23.0",
-    "hbs": "^4.2.0",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",

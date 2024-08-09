@@ -8,6 +8,7 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { applyResolversEnhanceMap } from '../prisma/generated/type-graphql';
 import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-client-exception.filter';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   applyResolversEnhanceMap({
@@ -18,6 +19,7 @@ async function bootstrap() {
     },
   });
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const configService = app.get(ConfigService);
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
@@ -29,12 +31,13 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   app.enableCors({
     allowedHeaders: ['Content-Type', 'Origin', 'Accept', 'Authorization'],
-    origin: 'http://localhost:4200',
+    origin: configService.get<string>('FRONTEND_URL'),
     credentials: true,
   });
 
-  await app.listen(3000);
+  await app.listen(configService.get<string>('PORT'));
+  console.log(
+    `graphql server running on port http://localhost:${configService.get<string>('PORT')}/graphql`,
+  );
 }
-bootstrap().then(() => {
-  console.log('graphql server running on port http://localhost:3000/graphql');
-});
+bootstrap().then(() => {});

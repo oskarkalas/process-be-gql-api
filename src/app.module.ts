@@ -15,6 +15,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { GoogleStrategy } from './quards/google.strategy';
 import { AuthController } from './auth/auth.controller';
 import { PrismaModule } from './prisma/prisma.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PrismaModule } from './prisma/prisma.module';
       rootPath: join(__dirname, '..'),
       renderPath: 'public',
     }),
+    ConfigModule.forRoot(),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

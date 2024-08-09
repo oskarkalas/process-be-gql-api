@@ -41,7 +41,7 @@ export class UserResolver {
     const user = await prisma.user.findUnique({
       where: { email: loginInput.email },
     });
-    if (!user.password && user.provider) {
+    if (user && !user.password && user.provider) {
       throw new Error(user.provider.toString());
     }
     const match = await bcrypt.compare(loginInput.password, user.password);
