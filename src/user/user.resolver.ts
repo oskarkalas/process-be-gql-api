@@ -41,6 +41,19 @@ export class UserResolver {
     const user = await prisma.user.findUnique({
       where: { email: loginInput.email },
     });
+
+    // const socialUserWithoutPassword = await prisma.user.findUnique({
+    //   where: {
+    //     email: loginInput.email,
+    //     password: null,
+    //     provider: { hasSome: ['google'] },
+    //   },
+    // });
+    // if (socialUserWithoutPassword) {
+    //   console.log(socialUserWithoutPassword);
+    //   throw new Error('wrong username or password');
+    // }
+
     if (user && !user.password && user.provider) {
       throw new Error(user.provider.toString());
     }

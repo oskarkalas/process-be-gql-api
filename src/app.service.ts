@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
-import { Role, User } from '@prisma/client';
+import { $Enums, Role, User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
 
@@ -23,7 +23,6 @@ export class AppService {
   }
 
   async googleLogin(req, res) {
-    console.log(req.user);
     if (req.user) {
       let user = await this.prisma.user.findUnique({
         where: { email: req.user.email },
@@ -35,17 +34,19 @@ export class AppService {
             firstName: req.user?.firstName,
             lastName: req.user?.lastName,
             picture: req.user?.picture,
+            provider: [$Enums.Provider.google],
           },
         });
       }
       const userData: Partial<User> = {
         email: user.email,
         role: Role.admin,
+        provider: [...user.provider, $Enums.Provider.google],
       };
       const jwtStatus = await this.jwtService.signAsync(userData, {
         privateKey: jwtConstants.secret,
       });
-      res.redirect('http://localhost:4200/login?accessToken=' + jwtStatus);
+      res.redirect('http://localhost:4200/auth?accessToken=' + jwtStatus);
     }
   }
 }

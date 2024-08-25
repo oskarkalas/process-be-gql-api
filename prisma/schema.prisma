@@ -9,6 +9,7 @@ datasource db {
 
 generator docs {
   provider = "node node_modules/prisma-docs-generator"
+  output   = "../prisma-docs"
 }
 
 generator typegraphql {
