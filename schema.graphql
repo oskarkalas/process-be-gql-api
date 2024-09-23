@@ -288,6 +288,8 @@ enum Provider {
   facebook
   github
   google
+  local
+  microsoft
 }
 
 type Query {
@@ -403,7 +405,7 @@ type User {
   firstName: String
   id: Int!
   lastName: String
-  picture: String!
+  picture: String
   provider: [Provider!]!
   refreshToken: String
   role: Role!
@@ -490,7 +492,7 @@ type UserGroupBy {
   id: Int!
   lastName: String
   password: String
-  picture: String!
+  picture: String
   provider: [Provider!]
   refreshToken: String
   role: Role!
@@ -561,7 +563,7 @@ input UserOrderByWithAggregationInput {
   id: SortOrder
   lastName: SortOrderInput
   password: SortOrderInput
-  picture: SortOrder
+  picture: SortOrderInput
   provider: SortOrder
   refreshToken: SortOrderInput
   role: SortOrder
@@ -575,7 +577,7 @@ input UserOrderByWithRelationInput {
   id: SortOrder
   lastName: SortOrderInput
   password: SortOrderInput
-  picture: SortOrder
+  picture: SortOrderInput
   provider: SortOrder
   refreshToken: SortOrderInput
   role: SortOrder
@@ -606,7 +608,7 @@ input UserScalarWhereWithAggregatesInput {
   id: IntWithAggregatesFilter
   lastName: StringNullableWithAggregatesFilter
   password: StringNullableWithAggregatesFilter
-  picture: StringWithAggregatesFilter
+  picture: StringNullableWithAggregatesFilter
   provider: EnumProviderNullableListFilter
   refreshToken: StringNullableWithAggregatesFilter
   role: EnumRoleWithAggregatesFilter
@@ -627,7 +629,7 @@ input UserUpdateInput {
   firstName: NullableStringFieldUpdateOperationsInput
   lastName: NullableStringFieldUpdateOperationsInput
   password: NullableStringFieldUpdateOperationsInput
-  picture: StringFieldUpdateOperationsInput
+  picture: NullableStringFieldUpdateOperationsInput
   provider: UserUpdateproviderInput
   refreshToken: NullableStringFieldUpdateOperationsInput
   role: EnumRoleFieldUpdateOperationsInput
@@ -640,7 +642,7 @@ input UserUpdateManyMutationInput {
   firstName: NullableStringFieldUpdateOperationsInput
   lastName: NullableStringFieldUpdateOperationsInput
   password: NullableStringFieldUpdateOperationsInput
-  picture: StringFieldUpdateOperationsInput
+  picture: NullableStringFieldUpdateOperationsInput
   provider: UserUpdateproviderInput
   refreshToken: NullableStringFieldUpdateOperationsInput
   role: EnumRoleFieldUpdateOperationsInput
@@ -662,7 +664,7 @@ input UserWhereInput {
   id: IntFilter
   lastName: StringNullableFilter
   password: StringNullableFilter
-  picture: StringFilter
+  picture: StringNullableFilter
   provider: EnumProviderNullableListFilter
   refreshToken: StringNullableFilter
   role: EnumRoleFilter
@@ -679,7 +681,7 @@ input UserWhereUniqueInput {
   id: Int
   lastName: StringNullableFilter
   password: StringNullableFilter
-  picture: StringFilter
+  picture: StringNullableFilter
   provider: EnumProviderNullableListFilter
   refreshToken: StringNullableFilter
   role: EnumRoleFilter

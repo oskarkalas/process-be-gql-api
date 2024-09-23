@@ -22,7 +22,7 @@ model User {
   id           Int        @id @default(autoincrement())
   firstName    String?
   lastName     String?
-  picture      String     @default("default-user-picture.png")
+  picture      String?
   email        String     @unique
   /// @TypeGraphQL.omit(output: true)
   password     String?
@@ -43,4 +43,6 @@ enum Provider {
   google
   facebook
   github
+  microsoft
+  local
 }

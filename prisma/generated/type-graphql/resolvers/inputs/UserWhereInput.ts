@@ -41,10 +41,10 @@ export class UserWhereInput {
   })
   lastName?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field((_type) => StringFilter, {
+  @TypeGraphQL.Field((_type) => StringNullableFilter, {
     nullable: true,
   })
-  picture?: StringFilter | undefined;
+  picture?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field((_type) => StringFilter, {
     nullable: true,

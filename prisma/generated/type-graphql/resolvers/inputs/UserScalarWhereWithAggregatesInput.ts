@@ -41,10 +41,10 @@ export class UserScalarWhereWithAggregatesInput {
   })
   lastName?: StringNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field((_type) => StringWithAggregatesFilter, {
+  @TypeGraphQL.Field((_type) => StringNullableWithAggregatesFilter, {
     nullable: true,
   })
-  picture?: StringWithAggregatesFilter | undefined;
+  picture?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field((_type) => StringWithAggregatesFilter, {
     nullable: true,

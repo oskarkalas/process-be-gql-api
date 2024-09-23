@@ -5,7 +5,6 @@ import { DecimalJSScalar } from '../../scalars';
 import { DateTimeFilter } from '../inputs/DateTimeFilter';
 import { EnumProviderNullableListFilter } from '../inputs/EnumProviderNullableListFilter';
 import { EnumRoleFilter } from '../inputs/EnumRoleFilter';
-import { StringFilter } from '../inputs/StringFilter';
 import { StringNullableFilter } from '../inputs/StringNullableFilter';
 import { UserWhereInput } from '../inputs/UserWhereInput';
 
@@ -46,10 +45,10 @@ export class UserWhereUniqueInput {
   })
   lastName?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field((_type) => StringFilter, {
+  @TypeGraphQL.Field((_type) => StringNullableFilter, {
     nullable: true,
   })
-  picture?: StringFilter | undefined;
+  picture?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field((_type) => StringNullableFilter, {
     nullable: true,

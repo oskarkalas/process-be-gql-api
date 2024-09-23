@@ -22,10 +22,10 @@ export class UserOrderByWithRelationInput {
   })
   lastName?: SortOrderInput | undefined;
 
-  @TypeGraphQL.Field((_type) => SortOrder, {
+  @TypeGraphQL.Field((_type) => SortOrderInput, {
     nullable: true,
   })
-  picture?: 'asc' | 'desc' | undefined;
+  picture?: SortOrderInput | undefined;
 
   @TypeGraphQL.Field((_type) => SortOrder, {
     nullable: true,

@@ -23,9 +23,9 @@ export class User {
   lastName?: string | null;
 
   @TypeGraphQL.Field((_type) => String, {
-    nullable: false,
+    nullable: true,
   })
-  picture!: string;
+  picture?: string | null;
 
   @TypeGraphQL.Field((_type) => String, {
     nullable: false,
@@ -57,5 +57,5 @@ export class User {
   @TypeGraphQL.Field((_type) => [Provider], {
     nullable: false,
   })
-  provider!: Array<'google' | 'facebook' | 'github'>;
+  provider!: Array<'google' | 'facebook' | 'github' | 'microsoft' | 'local'>;
 }

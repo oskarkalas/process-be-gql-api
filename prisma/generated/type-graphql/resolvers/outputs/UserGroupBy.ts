@@ -28,9 +28,9 @@ export class UserGroupBy {
   lastName!: string | null;
 
   @TypeGraphQL.Field((_type) => String, {
-    nullable: false,
+    nullable: true,
   })
-  picture!: string;
+  picture!: string | null;
 
   @TypeGraphQL.Field((_type) => String, {
     nullable: false,
@@ -65,7 +65,9 @@ export class UserGroupBy {
   @TypeGraphQL.Field((_type) => [Provider], {
     nullable: true,
   })
-  provider!: Array<'google' | 'facebook' | 'github'> | null;
+  provider!: Array<
+    'google' | 'facebook' | 'github' | 'microsoft' | 'local'
+  > | null;
 
   @TypeGraphQL.Field((_type) => UserCountAggregate, {
     nullable: true,
