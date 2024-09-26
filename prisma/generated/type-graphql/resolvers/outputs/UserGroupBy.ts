@@ -65,9 +65,7 @@ export class UserGroupBy {
   @TypeGraphQL.Field((_type) => [Provider], {
     nullable: true,
   })
-  provider!: Array<
-    'google' | 'facebook' | 'github' | 'microsoft' | 'local'
-  > | null;
+  provider!: Array<'google' | 'facebook' | 'github' | 'microsoft'> | null;
 
   @TypeGraphQL.Field((_type) => UserCountAggregate, {
     nullable: true,

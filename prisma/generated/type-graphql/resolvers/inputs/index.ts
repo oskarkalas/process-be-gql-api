@@ -1,3 +1,17 @@
+export { CatalogAvgOrderByAggregateInput } from './CatalogAvgOrderByAggregateInput';
+export { CatalogCountOrderByAggregateInput } from './CatalogCountOrderByAggregateInput';
+export { CatalogCreateInput } from './CatalogCreateInput';
+export { CatalogCreateManyInput } from './CatalogCreateManyInput';
+export { CatalogMaxOrderByAggregateInput } from './CatalogMaxOrderByAggregateInput';
+export { CatalogMinOrderByAggregateInput } from './CatalogMinOrderByAggregateInput';
+export { CatalogOrderByWithAggregationInput } from './CatalogOrderByWithAggregationInput';
+export { CatalogOrderByWithRelationInput } from './CatalogOrderByWithRelationInput';
+export { CatalogScalarWhereWithAggregatesInput } from './CatalogScalarWhereWithAggregatesInput';
+export { CatalogSumOrderByAggregateInput } from './CatalogSumOrderByAggregateInput';
+export { CatalogUpdateInput } from './CatalogUpdateInput';
+export { CatalogUpdateManyMutationInput } from './CatalogUpdateManyMutationInput';
+export { CatalogWhereInput } from './CatalogWhereInput';
+export { CatalogWhereUniqueInput } from './CatalogWhereUniqueInput';
 export { DateTimeFieldUpdateOperationsInput } from './DateTimeFieldUpdateOperationsInput';
 export { DateTimeFilter } from './DateTimeFilter';
 export { DateTimeWithAggregatesFilter } from './DateTimeWithAggregatesFilter';

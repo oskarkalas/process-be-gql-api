@@ -9,7 +9,10 @@ import { AppService } from './app.service';
 import { CustomAuthChecker } from './auth/customAuthChecker.class';
 import { jwtConstants } from './auth/constants';
 import { prismaClient } from './context';
-import { UserCrudResolver } from '../prisma/generated/type-graphql';
+import {
+  CatalogCrudResolver,
+  UserCrudResolver,
+} from '../prisma/generated/type-graphql';
 import { UserResolver } from './user/user.resolver';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { GoogleStrategy } from './quards/google.strategy';
@@ -20,10 +23,12 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..'),
-      renderPath: 'public',
+      rootPath: join(__dirname, '..', 'public'), // Serve from the correct directory
+      renderPath: '/', // Define the correct render path, usually the root
     }),
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
@@ -44,6 +49,12 @@ import { ConfigModule } from '@nestjs/config';
     }),
   ],
   controllers: [AppController, AuthController],
-  providers: [AppService, UserCrudResolver, UserResolver, GoogleStrategy],
+  providers: [
+    AppService,
+    UserCrudResolver,
+    CatalogCrudResolver,
+    UserResolver,
+    GoogleStrategy,
+  ],
 })
 export class AppModule {}

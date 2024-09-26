@@ -17,6 +17,9 @@ async function bootstrap() {
       aggregateUser: [Authorized(Role.admin)],
       user: [Authorized(Role.admin)],
     },
+    Catalog: {
+      catalogs: [Authorized(Role.admin)],
+    },
   });
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);

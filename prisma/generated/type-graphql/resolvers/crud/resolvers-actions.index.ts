@@ -1,3 +1,17 @@
+export { AggregateCatalogResolver } from './Catalog/AggregateCatalogResolver';
+export { CreateManyCatalogResolver } from './Catalog/CreateManyCatalogResolver';
+export { CreateOneCatalogResolver } from './Catalog/CreateOneCatalogResolver';
+export { DeleteManyCatalogResolver } from './Catalog/DeleteManyCatalogResolver';
+export { DeleteOneCatalogResolver } from './Catalog/DeleteOneCatalogResolver';
+export { FindFirstCatalogResolver } from './Catalog/FindFirstCatalogResolver';
+export { FindFirstCatalogOrThrowResolver } from './Catalog/FindFirstCatalogOrThrowResolver';
+export { FindManyCatalogResolver } from './Catalog/FindManyCatalogResolver';
+export { FindUniqueCatalogResolver } from './Catalog/FindUniqueCatalogResolver';
+export { FindUniqueCatalogOrThrowResolver } from './Catalog/FindUniqueCatalogOrThrowResolver';
+export { GroupByCatalogResolver } from './Catalog/GroupByCatalogResolver';
+export { UpdateManyCatalogResolver } from './Catalog/UpdateManyCatalogResolver';
+export { UpdateOneCatalogResolver } from './Catalog/UpdateOneCatalogResolver';
+export { UpsertOneCatalogResolver } from './Catalog/UpsertOneCatalogResolver';
 export { AggregateUserResolver } from './User/AggregateUserResolver';
 export { CreateManyUserResolver } from './User/CreateManyUserResolver';
 export { CreateOneUserResolver } from './User/CreateOneUserResolver';

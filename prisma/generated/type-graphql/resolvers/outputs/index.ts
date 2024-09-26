@@ -1,5 +1,12 @@
 export { AffectedRowsOutput } from './AffectedRowsOutput';
+export { AggregateCatalog } from './AggregateCatalog';
 export { AggregateUser } from './AggregateUser';
+export { CatalogAvgAggregate } from './CatalogAvgAggregate';
+export { CatalogCountAggregate } from './CatalogCountAggregate';
+export { CatalogGroupBy } from './CatalogGroupBy';
+export { CatalogMaxAggregate } from './CatalogMaxAggregate';
+export { CatalogMinAggregate } from './CatalogMinAggregate';
+export { CatalogSumAggregate } from './CatalogSumAggregate';
 export { UserAvgAggregate } from './UserAvgAggregate';
 export { UserCountAggregate } from './UserCountAggregate';
 export { UserGroupBy } from './UserGroupBy';

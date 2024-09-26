@@ -33,6 +33,14 @@ model User {
   provider     Provider[] @default([])
 }
 
+model Catalog {
+  id          Int     @id @default(autoincrement())
+  title       String?
+  description String?
+  type        String?
+  author      String?
+}
+
 enum Role {
   admin
   user
@@ -44,5 +52,4 @@ enum Provider {
   facebook
   github
   microsoft
-  local
 }

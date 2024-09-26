@@ -1,3 +1,4 @@
+export { CatalogScalarFieldEnum } from './CatalogScalarFieldEnum';
 export { NullsOrder } from './NullsOrder';
 export { Provider } from './Provider';
 export { QueryMode } from './QueryMode';

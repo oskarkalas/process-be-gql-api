@@ -7,12 +7,197 @@ type AffectedRowsOutput {
   count: Int!
 }
 
+type AggregateCatalog {
+  _avg: CatalogAvgAggregate
+  _count: CatalogCountAggregate
+  _max: CatalogMaxAggregate
+  _min: CatalogMinAggregate
+  _sum: CatalogSumAggregate
+}
+
 type AggregateUser {
   _avg: UserAvgAggregate
   _count: UserCountAggregate
   _max: UserMaxAggregate
   _min: UserMinAggregate
   _sum: UserSumAggregate
+}
+
+type Catalog {
+  author: String
+  description: String
+  id: Int!
+  title: String
+  type: String
+}
+
+type CatalogAvgAggregate {
+  id: Float
+}
+
+input CatalogAvgOrderByAggregateInput {
+  id: SortOrder
+}
+
+type CatalogCountAggregate {
+  _all: Int!
+  author: Int!
+  description: Int!
+  id: Int!
+  title: Int!
+  type: Int!
+}
+
+input CatalogCountOrderByAggregateInput {
+  author: SortOrder
+  description: SortOrder
+  id: SortOrder
+  title: SortOrder
+  type: SortOrder
+}
+
+input CatalogCreateInput {
+  author: String
+  description: String
+  title: String
+  type: String
+}
+
+input CatalogCreateManyInput {
+  author: String
+  description: String
+  id: Int
+  title: String
+  type: String
+}
+
+type CatalogGroupBy {
+  _avg: CatalogAvgAggregate
+  _count: CatalogCountAggregate
+  _max: CatalogMaxAggregate
+  _min: CatalogMinAggregate
+  _sum: CatalogSumAggregate
+  author: String
+  description: String
+  id: Int!
+  title: String
+  type: String
+}
+
+type CatalogMaxAggregate {
+  author: String
+  description: String
+  id: Int
+  title: String
+  type: String
+}
+
+input CatalogMaxOrderByAggregateInput {
+  author: SortOrder
+  description: SortOrder
+  id: SortOrder
+  title: SortOrder
+  type: SortOrder
+}
+
+type CatalogMinAggregate {
+  author: String
+  description: String
+  id: Int
+  title: String
+  type: String
+}
+
+input CatalogMinOrderByAggregateInput {
+  author: SortOrder
+  description: SortOrder
+  id: SortOrder
+  title: SortOrder
+  type: SortOrder
+}
+
+input CatalogOrderByWithAggregationInput {
+  _avg: CatalogAvgOrderByAggregateInput
+  _count: CatalogCountOrderByAggregateInput
+  _max: CatalogMaxOrderByAggregateInput
+  _min: CatalogMinOrderByAggregateInput
+  _sum: CatalogSumOrderByAggregateInput
+  author: SortOrderInput
+  description: SortOrderInput
+  id: SortOrder
+  title: SortOrderInput
+  type: SortOrderInput
+}
+
+input CatalogOrderByWithRelationInput {
+  author: SortOrderInput
+  description: SortOrderInput
+  id: SortOrder
+  title: SortOrderInput
+  type: SortOrderInput
+}
+
+enum CatalogScalarFieldEnum {
+  author
+  description
+  id
+  title
+  type
+}
+
+input CatalogScalarWhereWithAggregatesInput {
+  AND: [CatalogScalarWhereWithAggregatesInput!]
+  NOT: [CatalogScalarWhereWithAggregatesInput!]
+  OR: [CatalogScalarWhereWithAggregatesInput!]
+  author: StringNullableWithAggregatesFilter
+  description: StringNullableWithAggregatesFilter
+  id: IntWithAggregatesFilter
+  title: StringNullableWithAggregatesFilter
+  type: StringNullableWithAggregatesFilter
+}
+
+type CatalogSumAggregate {
+  id: Int
+}
+
+input CatalogSumOrderByAggregateInput {
+  id: SortOrder
+}
+
+input CatalogUpdateInput {
+  author: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  title: NullableStringFieldUpdateOperationsInput
+  type: NullableStringFieldUpdateOperationsInput
+}
+
+input CatalogUpdateManyMutationInput {
+  author: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  title: NullableStringFieldUpdateOperationsInput
+  type: NullableStringFieldUpdateOperationsInput
+}
+
+input CatalogWhereInput {
+  AND: [CatalogWhereInput!]
+  NOT: [CatalogWhereInput!]
+  OR: [CatalogWhereInput!]
+  author: StringNullableFilter
+  description: StringNullableFilter
+  id: IntFilter
+  title: StringNullableFilter
+  type: StringNullableFilter
+}
+
+input CatalogWhereUniqueInput {
+  AND: [CatalogWhereInput!]
+  NOT: [CatalogWhereInput!]
+  OR: [CatalogWhereInput!]
+  author: StringNullableFilter
+  description: StringNullableFilter
+  id: Int
+  title: StringNullableFilter
+  type: StringNullableFilter
 }
 
 input DateTimeFieldUpdateOperationsInput {
@@ -111,14 +296,21 @@ type LoginResponse {
 }
 
 type Mutation {
+  createManyCatalog(data: [CatalogCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createManyUser(data: [UserCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  createOneCatalog(data: CatalogCreateInput): Catalog!
   createOneUser(data: UserCreateInput!): User!
+  deleteManyCatalog(where: CatalogWhereInput): AffectedRowsOutput!
   deleteManyUser(where: UserWhereInput): AffectedRowsOutput!
+  deleteOneCatalog(where: CatalogWhereUniqueInput!): Catalog
   deleteOneUser(where: UserWhereUniqueInput!): User
   login(loginInput: LoginInput!): LoginResponse!
   registerNewUser(loginInput: LoginInput!): LoginResponse!
+  updateManyCatalog(data: CatalogUpdateManyMutationInput!, where: CatalogWhereInput): AffectedRowsOutput!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): AffectedRowsOutput!
+  updateOneCatalog(data: CatalogUpdateInput!, where: CatalogWhereUniqueInput!): Catalog
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  upsertOneCatalog(create: CatalogCreateInput!, update: CatalogUpdateInput!, where: CatalogWhereUniqueInput!): Catalog!
   upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
@@ -288,16 +480,22 @@ enum Provider {
   facebook
   github
   google
-  local
   microsoft
 }
 
 type Query {
   Me: User!
+  aggregateCatalog(cursor: CatalogWhereUniqueInput, orderBy: [CatalogOrderByWithRelationInput!], skip: Int, take: Int, where: CatalogWhereInput): AggregateCatalog!
   aggregateUser(cursor: UserWhereUniqueInput, orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
+  catalog(where: CatalogWhereUniqueInput!): Catalog
+  catalogs(cursor: CatalogWhereUniqueInput, distinct: [CatalogScalarFieldEnum!], orderBy: [CatalogOrderByWithRelationInput!], skip: Int, take: Int, where: CatalogWhereInput): [Catalog!]!
+  findFirstCatalog(cursor: CatalogWhereUniqueInput, distinct: [CatalogScalarFieldEnum!], orderBy: [CatalogOrderByWithRelationInput!], skip: Int, take: Int, where: CatalogWhereInput): Catalog
+  findFirstCatalogOrThrow(cursor: CatalogWhereUniqueInput, distinct: [CatalogScalarFieldEnum!], orderBy: [CatalogOrderByWithRelationInput!], skip: Int, take: Int, where: CatalogWhereInput): Catalog
   findFirstUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User
   findFirstUserOrThrow(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User
+  getCatalog(where: CatalogWhereUniqueInput!): Catalog
   getUser(where: UserWhereUniqueInput!): User
+  groupByCatalog(by: [CatalogScalarFieldEnum!]!, having: CatalogScalarWhereWithAggregatesInput, orderBy: [CatalogOrderByWithAggregationInput!], skip: Int, take: Int, where: CatalogWhereInput): [CatalogGroupBy!]!
   groupByUser(by: [UserScalarFieldEnum!]!, having: UserScalarWhereWithAggregatesInput, orderBy: [UserOrderByWithAggregationInput!], skip: Int, take: Int, where: UserWhereInput): [UserGroupBy!]!
   user(where: UserWhereUniqueInput!): User
   users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!

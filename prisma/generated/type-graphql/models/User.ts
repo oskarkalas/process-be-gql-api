@@ -57,5 +57,5 @@ export class User {
   @TypeGraphQL.Field((_type) => [Provider], {
     nullable: false,
   })
-  provider!: Array<'google' | 'facebook' | 'github' | 'microsoft' | 'local'>;
+  provider!: Array<'google' | 'facebook' | 'github' | 'microsoft'>;
 }
