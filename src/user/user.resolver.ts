@@ -38,37 +38,41 @@ export class UserResolver {
     @Arg('loginInput') loginInput: LoginInput,
     @Ctx() { prisma }: Context,
   ) {
-    await prisma.user
-      .findUnique({
-        where: { email: loginInput.email },
-      })
-      .then((user) => {
-        if (user && !user.password && user.provider) {
-          throw new Error(user.provider.toString());
-        }
-        bcrypt
-          .compare(loginInput.password, user.password)
-          .then((status) => {
-            if (status) {
-              const userData: Partial<User> = {
-                email: user.email,
-                role: user.role,
-              };
-              return {
-                user: user,
-                jwt: this.jwtService.signAsync(userData, {
-                  privateKey: jwtConstants.secret,
-                }),
-              };
-            } else {
-              throw new Error('wrong username or password');
-            }
-          })
-          .catch(() => {
-            throw new Error('wrong username or password');
-          });
-      })
-      .catch((err) => console.log(err));
+    const user = await prisma.user.findUnique({
+      where: { email: loginInput.email },
+    });
+
+    // const socialUserWithoutPassword = await prisma.user.findUnique({
+    //   where: {
+    //     email: loginInput.email,
+    //     password: null,
+    //     provider: { hasSome: ['google'] },
+    //   },
+    // });
+    // if (socialUserWithoutPassword) {
+    //   console.log(socialUserWithoutPassword);
+    //   throw new Error('wrong username or password');
+    // }
+
+    if (user && !user.password && user.provider) {
+      throw new Error(user.provider.toString());
+    }
+    const match = await bcrypt.compare(loginInput.password, user.password);
+
+    if (!match) {
+      throw new Error('wrong username or password');
+    }
+
+    const userData: Partial<User> = {
+      email: user.email,
+      role: user.role,
+    };
+    return {
+      user: user,
+      jwt: await this.jwtService.signAsync(userData, {
+        privateKey: jwtConstants.secret,
+      }),
+    };
   }
 
   @Mutation(() => LoginResponse)
