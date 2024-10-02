@@ -27,16 +27,20 @@ type Catalog {
   author: String
   description: String
   id: Int!
+  owner: User!
+  ownerId: Int!
   title: String
   type: String
 }
 
 type CatalogAvgAggregate {
   id: Float
+  ownerId: Float
 }
 
 input CatalogAvgOrderByAggregateInput {
   id: SortOrder
+  ownerId: SortOrder
 }
 
 type CatalogCountAggregate {
@@ -44,6 +48,7 @@ type CatalogCountAggregate {
   author: Int!
   description: Int!
   id: Int!
+  ownerId: Int!
   title: Int!
   type: Int!
 }
@@ -52,6 +57,7 @@ input CatalogCountOrderByAggregateInput {
   author: SortOrder
   description: SortOrder
   id: SortOrder
+  ownerId: SortOrder
   title: SortOrder
   type: SortOrder
 }
@@ -59,6 +65,7 @@ input CatalogCountOrderByAggregateInput {
 input CatalogCreateInput {
   author: String
   description: String
+  owner: UserCreateNestedOneWithoutCatalogInput!
   title: String
   type: String
 }
@@ -67,6 +74,39 @@ input CatalogCreateManyInput {
   author: String
   description: String
   id: Int
+  ownerId: Int!
+  title: String
+  type: String
+}
+
+input CatalogCreateManyOwnerInput {
+  author: String
+  description: String
+  id: Int
+  title: String
+  type: String
+}
+
+input CatalogCreateManyOwnerInputEnvelope {
+  data: [CatalogCreateManyOwnerInput!]!
+  skipDuplicates: Boolean
+}
+
+input CatalogCreateNestedManyWithoutOwnerInput {
+  connect: [CatalogWhereUniqueInput!]
+  connectOrCreate: [CatalogCreateOrConnectWithoutOwnerInput!]
+  create: [CatalogCreateWithoutOwnerInput!]
+  createMany: CatalogCreateManyOwnerInputEnvelope
+}
+
+input CatalogCreateOrConnectWithoutOwnerInput {
+  create: CatalogCreateWithoutOwnerInput!
+  where: CatalogWhereUniqueInput!
+}
+
+input CatalogCreateWithoutOwnerInput {
+  author: String
+  description: String
   title: String
   type: String
 }
@@ -80,14 +120,22 @@ type CatalogGroupBy {
   author: String
   description: String
   id: Int!
+  ownerId: Int!
   title: String
   type: String
+}
+
+input CatalogListRelationFilter {
+  every: CatalogWhereInput
+  none: CatalogWhereInput
+  some: CatalogWhereInput
 }
 
 type CatalogMaxAggregate {
   author: String
   description: String
   id: Int
+  ownerId: Int
   title: String
   type: String
 }
@@ -96,6 +144,7 @@ input CatalogMaxOrderByAggregateInput {
   author: SortOrder
   description: SortOrder
   id: SortOrder
+  ownerId: SortOrder
   title: SortOrder
   type: SortOrder
 }
@@ -104,6 +153,7 @@ type CatalogMinAggregate {
   author: String
   description: String
   id: Int
+  ownerId: Int
   title: String
   type: String
 }
@@ -112,8 +162,13 @@ input CatalogMinOrderByAggregateInput {
   author: SortOrder
   description: SortOrder
   id: SortOrder
+  ownerId: SortOrder
   title: SortOrder
   type: SortOrder
+}
+
+input CatalogOrderByRelationAggregateInput {
+  _count: SortOrder
 }
 
 input CatalogOrderByWithAggregationInput {
@@ -125,6 +180,7 @@ input CatalogOrderByWithAggregationInput {
   author: SortOrderInput
   description: SortOrderInput
   id: SortOrder
+  ownerId: SortOrder
   title: SortOrderInput
   type: SortOrderInput
 }
@@ -133,6 +189,8 @@ input CatalogOrderByWithRelationInput {
   author: SortOrderInput
   description: SortOrderInput
   id: SortOrder
+  owner: UserOrderByWithRelationInput
+  ownerId: SortOrder
   title: SortOrderInput
   type: SortOrderInput
 }
@@ -141,8 +199,21 @@ enum CatalogScalarFieldEnum {
   author
   description
   id
+  ownerId
   title
   type
+}
+
+input CatalogScalarWhereInput {
+  AND: [CatalogScalarWhereInput!]
+  NOT: [CatalogScalarWhereInput!]
+  OR: [CatalogScalarWhereInput!]
+  author: StringNullableFilter
+  description: StringNullableFilter
+  id: IntFilter
+  ownerId: IntFilter
+  title: StringNullableFilter
+  type: StringNullableFilter
 }
 
 input CatalogScalarWhereWithAggregatesInput {
@@ -152,21 +223,25 @@ input CatalogScalarWhereWithAggregatesInput {
   author: StringNullableWithAggregatesFilter
   description: StringNullableWithAggregatesFilter
   id: IntWithAggregatesFilter
+  ownerId: IntWithAggregatesFilter
   title: StringNullableWithAggregatesFilter
   type: StringNullableWithAggregatesFilter
 }
 
 type CatalogSumAggregate {
   id: Int
+  ownerId: Int
 }
 
 input CatalogSumOrderByAggregateInput {
   id: SortOrder
+  ownerId: SortOrder
 }
 
 input CatalogUpdateInput {
   author: NullableStringFieldUpdateOperationsInput
   description: NullableStringFieldUpdateOperationsInput
+  owner: UserUpdateOneRequiredWithoutCatalogNestedInput
   title: NullableStringFieldUpdateOperationsInput
   type: NullableStringFieldUpdateOperationsInput
 }
@@ -178,6 +253,43 @@ input CatalogUpdateManyMutationInput {
   type: NullableStringFieldUpdateOperationsInput
 }
 
+input CatalogUpdateManyWithWhereWithoutOwnerInput {
+  data: CatalogUpdateManyMutationInput!
+  where: CatalogScalarWhereInput!
+}
+
+input CatalogUpdateManyWithoutOwnerNestedInput {
+  connect: [CatalogWhereUniqueInput!]
+  connectOrCreate: [CatalogCreateOrConnectWithoutOwnerInput!]
+  create: [CatalogCreateWithoutOwnerInput!]
+  createMany: CatalogCreateManyOwnerInputEnvelope
+  delete: [CatalogWhereUniqueInput!]
+  deleteMany: [CatalogScalarWhereInput!]
+  disconnect: [CatalogWhereUniqueInput!]
+  set: [CatalogWhereUniqueInput!]
+  update: [CatalogUpdateWithWhereUniqueWithoutOwnerInput!]
+  updateMany: [CatalogUpdateManyWithWhereWithoutOwnerInput!]
+  upsert: [CatalogUpsertWithWhereUniqueWithoutOwnerInput!]
+}
+
+input CatalogUpdateWithWhereUniqueWithoutOwnerInput {
+  data: CatalogUpdateWithoutOwnerInput!
+  where: CatalogWhereUniqueInput!
+}
+
+input CatalogUpdateWithoutOwnerInput {
+  author: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  title: NullableStringFieldUpdateOperationsInput
+  type: NullableStringFieldUpdateOperationsInput
+}
+
+input CatalogUpsertWithWhereUniqueWithoutOwnerInput {
+  create: CatalogCreateWithoutOwnerInput!
+  update: CatalogUpdateWithoutOwnerInput!
+  where: CatalogWhereUniqueInput!
+}
+
 input CatalogWhereInput {
   AND: [CatalogWhereInput!]
   NOT: [CatalogWhereInput!]
@@ -185,6 +297,8 @@ input CatalogWhereInput {
   author: StringNullableFilter
   description: StringNullableFilter
   id: IntFilter
+  owner: UserRelationFilter
+  ownerId: IntFilter
   title: StringNullableFilter
   type: StringNullableFilter
 }
@@ -196,6 +310,8 @@ input CatalogWhereUniqueInput {
   author: StringNullableFilter
   description: StringNullableFilter
   id: Int
+  owner: UserRelationFilter
+  ownerId: IntFilter
   title: StringNullableFilter
   type: StringNullableFilter
 }
@@ -298,7 +414,7 @@ type LoginResponse {
 type Mutation {
   createManyCatalog(data: [CatalogCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createManyUser(data: [UserCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createOneCatalog(data: CatalogCreateInput): Catalog!
+  createOneCatalog(data: CatalogCreateInput!): Catalog!
   createOneUser(data: UserCreateInput!): User!
   deleteManyCatalog(where: CatalogWhereInput): AffectedRowsOutput!
   deleteManyUser(where: UserWhereInput): AffectedRowsOutput!
@@ -598,6 +714,8 @@ input StringWithAggregatesFilter {
 scalar Timestamp
 
 type User {
+  _count: UserCount
+  catalog(cursor: CatalogWhereUniqueInput, distinct: [CatalogScalarFieldEnum!], orderBy: [CatalogOrderByWithRelationInput!], skip: Int, take: Int, where: CatalogWhereInput): [Catalog!]!
   createdAt: Timestamp!
   email: String!
   firstName: String
@@ -616,6 +734,10 @@ type UserAvgAggregate {
 
 input UserAvgOrderByAggregateInput {
   id: SortOrder
+}
+
+type UserCount {
+  catalog(where: CatalogWhereInput): Int!
 }
 
 type UserCountAggregate {
@@ -648,6 +770,7 @@ input UserCountOrderByAggregateInput {
 }
 
 input UserCreateInput {
+  catalog: CatalogCreateNestedManyWithoutOwnerInput
   createdAt: Timestamp
   email: String!
   firstName: String
@@ -665,6 +788,30 @@ input UserCreateManyInput {
   email: String!
   firstName: String
   id: Int
+  lastName: String
+  password: String
+  picture: String
+  provider: UserCreateproviderInput
+  refreshToken: String
+  role: Role
+  updatedAt: Timestamp
+}
+
+input UserCreateNestedOneWithoutCatalogInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutCatalogInput
+  create: UserCreateWithoutCatalogInput
+}
+
+input UserCreateOrConnectWithoutCatalogInput {
+  create: UserCreateWithoutCatalogInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserCreateWithoutCatalogInput {
+  createdAt: Timestamp
+  email: String!
+  firstName: String
   lastName: String
   password: String
   picture: String
@@ -769,6 +916,7 @@ input UserOrderByWithAggregationInput {
 }
 
 input UserOrderByWithRelationInput {
+  catalog: CatalogOrderByRelationAggregateInput
   createdAt: SortOrder
   email: SortOrder
   firstName: SortOrderInput
@@ -780,6 +928,11 @@ input UserOrderByWithRelationInput {
   refreshToken: SortOrderInput
   role: SortOrder
   updatedAt: SortOrder
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
 }
 
 enum UserScalarFieldEnum {
@@ -822,6 +975,7 @@ input UserSumOrderByAggregateInput {
 }
 
 input UserUpdateInput {
+  catalog: CatalogUpdateManyWithoutOwnerNestedInput
   createdAt: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   firstName: NullableStringFieldUpdateOperationsInput
@@ -847,15 +1001,48 @@ input UserUpdateManyMutationInput {
   updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
+input UserUpdateOneRequiredWithoutCatalogNestedInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutCatalogInput
+  create: UserCreateWithoutCatalogInput
+  update: UserUpdateToOneWithWhereWithoutCatalogInput
+  upsert: UserUpsertWithoutCatalogInput
+}
+
+input UserUpdateToOneWithWhereWithoutCatalogInput {
+  data: UserUpdateWithoutCatalogInput!
+  where: UserWhereInput
+}
+
+input UserUpdateWithoutCatalogInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  password: NullableStringFieldUpdateOperationsInput
+  picture: NullableStringFieldUpdateOperationsInput
+  provider: UserUpdateproviderInput
+  refreshToken: NullableStringFieldUpdateOperationsInput
+  role: EnumRoleFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
 input UserUpdateproviderInput {
   push: [Provider!]
   set: [Provider!]
+}
+
+input UserUpsertWithoutCatalogInput {
+  create: UserCreateWithoutCatalogInput!
+  update: UserUpdateWithoutCatalogInput!
+  where: UserWhereInput
 }
 
 input UserWhereInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  catalog: CatalogListRelationFilter
   createdAt: DateTimeFilter
   email: StringFilter
   firstName: StringNullableFilter
@@ -873,6 +1060,7 @@ input UserWhereUniqueInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  catalog: CatalogListRelationFilter
   createdAt: DateTimeFilter
   email: String
   firstName: StringNullableFilter

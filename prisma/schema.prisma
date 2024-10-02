@@ -24,6 +24,7 @@ model User {
   lastName     String?
   picture      String?
   email        String     @unique
+  catalog      Catalog[]
   /// @TypeGraphQL.omit(output: true)
   password     String?
   refreshToken String?
@@ -39,6 +40,8 @@ model Catalog {
   description String?
   type        String?
   author      String?
+  owner       User    @relation(fields: [ownerId], references: [id])
+  ownerId     Int
 }
 
 enum Role {

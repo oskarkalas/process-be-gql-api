@@ -2,6 +2,7 @@ import * as TypeGraphQL from 'type-graphql';
 import * as GraphQLScalars from 'graphql-scalars';
 import { Prisma } from '@prisma/client';
 import { DecimalJSScalar } from '../../scalars';
+import { CatalogUpdateManyWithoutOwnerNestedInput } from '../inputs/CatalogUpdateManyWithoutOwnerNestedInput';
 import { DateTimeFieldUpdateOperationsInput } from '../inputs/DateTimeFieldUpdateOperationsInput';
 import { EnumRoleFieldUpdateOperationsInput } from '../inputs/EnumRoleFieldUpdateOperationsInput';
 import { NullableStringFieldUpdateOperationsInput } from '../inputs/NullableStringFieldUpdateOperationsInput';
@@ -59,4 +60,9 @@ export class UserUpdateInput {
     nullable: true,
   })
   provider?: UserUpdateproviderInput | undefined;
+
+  @TypeGraphQL.Field((_type) => CatalogUpdateManyWithoutOwnerNestedInput, {
+    nullable: true,
+  })
+  catalog?: CatalogUpdateManyWithoutOwnerNestedInput | undefined;
 }

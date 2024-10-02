@@ -2,8 +2,10 @@ import * as TypeGraphQL from 'type-graphql';
 import * as GraphQLScalars from 'graphql-scalars';
 import { Prisma } from '@prisma/client';
 import { DecimalJSScalar } from '../scalars';
+import { Catalog } from '../models/Catalog';
 import { Provider } from '../enums/Provider';
 import { Role } from '../enums/Role';
+import { UserCount } from '../resolvers/outputs/UserCount';
 
 @TypeGraphQL.ObjectType('User', {})
 export class User {
@@ -32,6 +34,8 @@ export class User {
   })
   email!: string;
 
+  catalog?: Catalog[];
+
   password?: string | null;
 
   @TypeGraphQL.Field((_type) => String, {
@@ -58,4 +62,9 @@ export class User {
     nullable: false,
   })
   provider!: Array<'google' | 'facebook' | 'github' | 'microsoft'>;
+
+  @TypeGraphQL.Field((_type) => UserCount, {
+    nullable: true,
+  })
+  _count?: UserCount | null;
 }

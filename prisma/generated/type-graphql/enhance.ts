@@ -3,6 +3,7 @@ import * as tslib from 'tslib';
 import * as crudResolvers from './resolvers/crud/resolvers-crud.index';
 import * as argsTypes from './resolvers/crud/args.index';
 import * as actionResolvers from './resolvers/crud/resolvers-actions.index';
+import * as relationResolvers from './resolvers/relations/resolvers.index';
 import * as models from './models';
 import * as outputTypes from './resolvers/outputs';
 import * as inputTypes from './resolvers/inputs';
@@ -252,6 +253,67 @@ export function applyArgsTypesEnhanceMap(
   }
 }
 
+const relationResolversMap = {
+  User: relationResolvers.UserRelationsResolver,
+  Catalog: relationResolvers.CatalogRelationsResolver,
+};
+const relationResolversInfo = {
+  User: ['catalog'],
+  Catalog: ['owner'],
+};
+
+type RelationResolverModelNames = keyof typeof relationResolversMap;
+
+type RelationResolverActionNames<TModel extends RelationResolverModelNames> =
+  keyof (typeof relationResolversMap)[TModel]['prototype'];
+
+export type RelationResolverActionsConfig<
+  TModel extends RelationResolverModelNames,
+> = Partial<
+  Record<
+    RelationResolverActionNames<TModel>,
+    MethodDecorator[] | MethodDecoratorOverrideFn
+  >
+> & { _all?: MethodDecorator[] };
+
+export type RelationResolversEnhanceMap = {
+  [TModel in RelationResolverModelNames]?: RelationResolverActionsConfig<TModel>;
+};
+
+export function applyRelationResolversEnhanceMap(
+  relationResolversEnhanceMap: RelationResolversEnhanceMap,
+) {
+  for (const relationResolversEnhanceMapKey of Object.keys(
+    relationResolversEnhanceMap,
+  )) {
+    const modelName =
+      relationResolversEnhanceMapKey as keyof typeof relationResolversEnhanceMap;
+    const relationResolverTarget = relationResolversMap[modelName].prototype;
+    const relationResolverActionsConfig =
+      relationResolversEnhanceMap[modelName]!;
+    const allActionsDecorators = relationResolverActionsConfig._all ?? [];
+    const relationResolverActionNames =
+      relationResolversInfo[modelName as keyof typeof relationResolversInfo];
+    for (const relationResolverActionName of relationResolverActionNames) {
+      const maybeDecoratorsOrFn = relationResolverActionsConfig[
+        relationResolverActionName as keyof typeof relationResolverActionsConfig
+      ] as MethodDecorator[] | MethodDecoratorOverrideFn | undefined;
+      let decorators: MethodDecorator[];
+      if (typeof maybeDecoratorsOrFn === 'function') {
+        decorators = maybeDecoratorsOrFn(allActionsDecorators);
+      } else {
+        decorators = [...allActionsDecorators, ...(maybeDecoratorsOrFn ?? [])];
+      }
+      tslib.__decorate(
+        decorators,
+        relationResolverTarget,
+        relationResolverActionName,
+        null,
+      );
+    }
+  }
+}
+
 type TypeConfig = {
   class?: ClassDecorator[];
   fields?: FieldsConfig;
@@ -308,7 +370,7 @@ const modelsInfo = {
     'role',
     'provider',
   ],
-  Catalog: ['id', 'title', 'description', 'type', 'author'],
+  Catalog: ['id', 'title', 'description', 'type', 'author', 'ownerId'],
 };
 
 type ModelNames = keyof typeof models;
@@ -373,6 +435,7 @@ const outputsInfo = {
     'description',
     'type',
     'author',
+    'ownerId',
     '_count',
     '_avg',
     '_sum',
@@ -380,6 +443,7 @@ const outputsInfo = {
     '_max',
   ],
   AffectedRowsOutput: ['count'],
+  UserCount: ['catalog'],
   UserCountAggregate: [
     'id',
     'firstName',
@@ -426,12 +490,27 @@ const outputsInfo = {
     'description',
     'type',
     'author',
+    'ownerId',
     '_all',
   ],
-  CatalogAvgAggregate: ['id'],
-  CatalogSumAggregate: ['id'],
-  CatalogMinAggregate: ['id', 'title', 'description', 'type', 'author'],
-  CatalogMaxAggregate: ['id', 'title', 'description', 'type', 'author'],
+  CatalogAvgAggregate: ['id', 'ownerId'],
+  CatalogSumAggregate: ['id', 'ownerId'],
+  CatalogMinAggregate: [
+    'id',
+    'title',
+    'description',
+    'type',
+    'author',
+    'ownerId',
+  ],
+  CatalogMaxAggregate: [
+    'id',
+    'title',
+    'description',
+    'type',
+    'author',
+    'ownerId',
+  ],
 };
 
 type OutputTypesNames = keyof typeof outputTypes;
@@ -488,6 +567,7 @@ const inputsInfo = {
     'updatedAt',
     'role',
     'provider',
+    'catalog',
   ],
   UserOrderByWithRelationInput: [
     'id',
@@ -501,6 +581,7 @@ const inputsInfo = {
     'updatedAt',
     'role',
     'provider',
+    'catalog',
   ],
   UserWhereUniqueInput: [
     'id',
@@ -517,6 +598,7 @@ const inputsInfo = {
     'updatedAt',
     'role',
     'provider',
+    'catalog',
   ],
   UserOrderByWithAggregationInput: [
     'id',
@@ -561,6 +643,8 @@ const inputsInfo = {
     'description',
     'type',
     'author',
+    'ownerId',
+    'owner',
   ],
   CatalogOrderByWithRelationInput: [
     'id',
@@ -568,6 +652,8 @@ const inputsInfo = {
     'description',
     'type',
     'author',
+    'ownerId',
+    'owner',
   ],
   CatalogWhereUniqueInput: [
     'id',
@@ -578,6 +664,8 @@ const inputsInfo = {
     'description',
     'type',
     'author',
+    'ownerId',
+    'owner',
   ],
   CatalogOrderByWithAggregationInput: [
     'id',
@@ -585,6 +673,7 @@ const inputsInfo = {
     'description',
     'type',
     'author',
+    'ownerId',
     '_count',
     '_avg',
     '_max',
@@ -600,6 +689,7 @@ const inputsInfo = {
     'description',
     'type',
     'author',
+    'ownerId',
   ],
   UserCreateInput: [
     'firstName',
@@ -612,6 +702,7 @@ const inputsInfo = {
     'updatedAt',
     'role',
     'provider',
+    'catalog',
   ],
   UserUpdateInput: [
     'firstName',
@@ -624,6 +715,7 @@ const inputsInfo = {
     'updatedAt',
     'role',
     'provider',
+    'catalog',
   ],
   UserCreateManyInput: [
     'id',
@@ -650,9 +742,16 @@ const inputsInfo = {
     'role',
     'provider',
   ],
-  CatalogCreateInput: ['title', 'description', 'type', 'author'],
-  CatalogUpdateInput: ['title', 'description', 'type', 'author'],
-  CatalogCreateManyInput: ['id', 'title', 'description', 'type', 'author'],
+  CatalogCreateInput: ['title', 'description', 'type', 'author', 'owner'],
+  CatalogUpdateInput: ['title', 'description', 'type', 'author', 'owner'],
+  CatalogCreateManyInput: [
+    'id',
+    'title',
+    'description',
+    'type',
+    'author',
+    'ownerId',
+  ],
   CatalogUpdateManyMutationInput: ['title', 'description', 'type', 'author'],
   IntFilter: ['equals', 'in', 'notIn', 'lt', 'lte', 'gt', 'gte', 'not'],
   StringNullableFilter: [
@@ -692,7 +791,9 @@ const inputsInfo = {
     'hasSome',
     'isEmpty',
   ],
+  CatalogListRelationFilter: ['every', 'some', 'none'],
   SortOrderInput: ['sort', 'nulls'],
+  CatalogOrderByRelationAggregateInput: ['_count'],
   UserCountOrderByAggregateInput: [
     'id',
     'firstName',
@@ -803,20 +904,23 @@ const inputsInfo = {
     '_min',
     '_max',
   ],
+  UserRelationFilter: ['is', 'isNot'],
   CatalogCountOrderByAggregateInput: [
     'id',
     'title',
     'description',
     'type',
     'author',
+    'ownerId',
   ],
-  CatalogAvgOrderByAggregateInput: ['id'],
+  CatalogAvgOrderByAggregateInput: ['id', 'ownerId'],
   CatalogMaxOrderByAggregateInput: [
     'id',
     'title',
     'description',
     'type',
     'author',
+    'ownerId',
   ],
   CatalogMinOrderByAggregateInput: [
     'id',
@@ -824,20 +928,52 @@ const inputsInfo = {
     'description',
     'type',
     'author',
+    'ownerId',
   ],
-  CatalogSumOrderByAggregateInput: ['id'],
+  CatalogSumOrderByAggregateInput: ['id', 'ownerId'],
   UserCreateproviderInput: ['set'],
+  CatalogCreateNestedManyWithoutOwnerInput: [
+    'create',
+    'connectOrCreate',
+    'createMany',
+    'connect',
+  ],
   NullableStringFieldUpdateOperationsInput: ['set'],
   StringFieldUpdateOperationsInput: ['set'],
   DateTimeFieldUpdateOperationsInput: ['set'],
   EnumRoleFieldUpdateOperationsInput: ['set'],
   UserUpdateproviderInput: ['set', 'push'],
+  CatalogUpdateManyWithoutOwnerNestedInput: [
+    'create',
+    'connectOrCreate',
+    'upsert',
+    'createMany',
+    'set',
+    'disconnect',
+    'delete',
+    'connect',
+    'update',
+    'updateMany',
+    'deleteMany',
+  ],
   IntFieldUpdateOperationsInput: [
     'set',
     'increment',
     'decrement',
     'multiply',
     'divide',
+  ],
+  UserCreateNestedOneWithoutCatalogInput: [
+    'create',
+    'connectOrCreate',
+    'connect',
+  ],
+  UserUpdateOneRequiredWithoutCatalogNestedInput: [
+    'create',
+    'connectOrCreate',
+    'upsert',
+    'connect',
+    'update',
   ],
   NestedIntFilter: ['equals', 'in', 'notIn', 'lt', 'lte', 'gt', 'gte', 'not'],
   NestedStringNullableFilter: [
@@ -957,6 +1093,52 @@ const inputsInfo = {
     '_min',
     '_max',
   ],
+  CatalogCreateWithoutOwnerInput: ['title', 'description', 'type', 'author'],
+  CatalogCreateOrConnectWithoutOwnerInput: ['where', 'create'],
+  CatalogCreateManyOwnerInputEnvelope: ['data', 'skipDuplicates'],
+  CatalogUpsertWithWhereUniqueWithoutOwnerInput: ['where', 'update', 'create'],
+  CatalogUpdateWithWhereUniqueWithoutOwnerInput: ['where', 'data'],
+  CatalogUpdateManyWithWhereWithoutOwnerInput: ['where', 'data'],
+  CatalogScalarWhereInput: [
+    'AND',
+    'OR',
+    'NOT',
+    'id',
+    'title',
+    'description',
+    'type',
+    'author',
+    'ownerId',
+  ],
+  UserCreateWithoutCatalogInput: [
+    'firstName',
+    'lastName',
+    'picture',
+    'email',
+    'password',
+    'refreshToken',
+    'createdAt',
+    'updatedAt',
+    'role',
+    'provider',
+  ],
+  UserCreateOrConnectWithoutCatalogInput: ['where', 'create'],
+  UserUpsertWithoutCatalogInput: ['update', 'create', 'where'],
+  UserUpdateToOneWithWhereWithoutCatalogInput: ['where', 'data'],
+  UserUpdateWithoutCatalogInput: [
+    'firstName',
+    'lastName',
+    'picture',
+    'email',
+    'password',
+    'refreshToken',
+    'createdAt',
+    'updatedAt',
+    'role',
+    'provider',
+  ],
+  CatalogCreateManyOwnerInput: ['id', 'title', 'description', 'type', 'author'],
+  CatalogUpdateWithoutOwnerInput: ['title', 'description', 'type', 'author'],
 };
 
 type InputTypesNames = keyof typeof inputTypes;

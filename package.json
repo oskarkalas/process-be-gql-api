@@ -21,7 +21,8 @@
     "prisma-doc-generate": "npx prisma generate",
     "prisma-doc-serve": "npx prisma-docs-generator serve",
     "prisma-migrate": "npx prisma migrate dev",
-    "prisma-generate": "npx prisma generate"
+    "prisma-generate": "npx prisma generate",
+    "start:prisma-studio": "npx prisma studio"
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",

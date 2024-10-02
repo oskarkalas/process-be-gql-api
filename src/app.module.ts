@@ -11,7 +11,9 @@ import { jwtConstants } from './auth/constants';
 import { prismaClient } from './context';
 import {
   CatalogCrudResolver,
+  CatalogRelationsResolver,
   UserCrudResolver,
+  UserRelationsResolver,
 } from '../prisma/generated/type-graphql';
 import { UserResolver } from './user/user.resolver';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -35,17 +37,15 @@ import { ConfigModule } from '@nestjs/config';
       signOptions: { expiresIn: '10h' },
     }),
     PrismaModule,
-    TypeGraphQLModule.forRootAsync({
-      imports: [CustomAuthChecker],
+    CustomAuthChecker,
+    TypeGraphQLModule.forRoot({
       driver: ApolloDriver,
-      useFactory: async () => ({
-        cors: true,
-        playground: true,
-        authChecker: CustomAuthChecker,
-        scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
-        emitSchemaFile: true,
-        context: (req: any) => ({ ...req, prisma: prismaClient }),
-      }),
+      path: '/',
+      emitSchemaFile: true,
+      scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
+      authChecker: CustomAuthChecker,
+      validate: false,
+      context: (req: any) => ({ ...req, prisma: prismaClient }),
     }),
   ],
   controllers: [AppController, AuthController],
@@ -54,6 +54,8 @@ import { ConfigModule } from '@nestjs/config';
     UserCrudResolver,
     CatalogCrudResolver,
     UserResolver,
+    UserRelationsResolver,
+    CatalogRelationsResolver,
     GoogleStrategy,
   ],
 })

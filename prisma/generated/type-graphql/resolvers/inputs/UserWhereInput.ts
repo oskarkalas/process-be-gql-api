@@ -2,6 +2,7 @@ import * as TypeGraphQL from 'type-graphql';
 import * as GraphQLScalars from 'graphql-scalars';
 import { Prisma } from '@prisma/client';
 import { DecimalJSScalar } from '../../scalars';
+import { CatalogListRelationFilter } from '../inputs/CatalogListRelationFilter';
 import { DateTimeFilter } from '../inputs/DateTimeFilter';
 import { EnumProviderNullableListFilter } from '../inputs/EnumProviderNullableListFilter';
 import { EnumRoleFilter } from '../inputs/EnumRoleFilter';
@@ -80,4 +81,9 @@ export class UserWhereInput {
     nullable: true,
   })
   provider?: EnumProviderNullableListFilter | undefined;
+
+  @TypeGraphQL.Field((_type) => CatalogListRelationFilter, {
+    nullable: true,
+  })
+  catalog?: CatalogListRelationFilter | undefined;
 }

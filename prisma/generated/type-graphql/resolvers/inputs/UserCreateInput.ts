@@ -2,6 +2,7 @@ import * as TypeGraphQL from 'type-graphql';
 import * as GraphQLScalars from 'graphql-scalars';
 import { Prisma } from '@prisma/client';
 import { DecimalJSScalar } from '../../scalars';
+import { CatalogCreateNestedManyWithoutOwnerInput } from '../inputs/CatalogCreateNestedManyWithoutOwnerInput';
 import { UserCreateproviderInput } from '../inputs/UserCreateproviderInput';
 import { Role } from '../../enums/Role';
 
@@ -56,4 +57,9 @@ export class UserCreateInput {
     nullable: true,
   })
   provider?: UserCreateproviderInput | undefined;
+
+  @TypeGraphQL.Field((_type) => CatalogCreateNestedManyWithoutOwnerInput, {
+    nullable: true,
+  })
+  catalog?: CatalogCreateNestedManyWithoutOwnerInput | undefined;
 }
